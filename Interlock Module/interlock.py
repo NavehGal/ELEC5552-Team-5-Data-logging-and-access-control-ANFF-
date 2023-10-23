@@ -1,21 +1,32 @@
-import pytuya
+import tinytuya
+import time
 
-def control_tuya_switch():
-    DEVICE_ID = 'bf2d4af68dd642eeac8qpn'
-    IP_ADDRESS = '192.168.10.112'
-    LOCAL_KEY = '<:s@_alTE]BE~<X+'
+def read_output_file(filepath):
+    with open(filepath, 'r') as f:
+        value = f.read().strip()
+    return value
 
-    d = pytuya.OutletDevice(DEVICE_ID, IP_ADDRESS, LOCAL_KEY)
-    d.set_version(3.3)
-    data = d.status()  
-    print("Full data returned from device:", data)
-    
-    if 'dps' in data and '1' in data['dps']:
-        print('Device %s at %s is power state: %s' % 
-              (DEVICE_ID, IP_ADDRESS, data['dps']['1']))
+# Connect to Device
+d = tinytuya.OutletDevice(
+    dev_id='bf2d4af68dd642eeac8qpn',
+    address='172.20.10.8',
+    local_key='rB5(EM%}Qc$Vq?fX', 
+    version=3.4)
 
-        
-        d.turn_on()
+file_path = "/home/pi/isolatorOutput.txt"
+previous_value = None  # to store the last known value
 
-    else:
-        print("Unable to retrieve power state from device.")
+while True:
+    current_value = read_output_file(file_path)
+
+    # Only act if the value has changed
+    if current_value != previous_value:
+        if current_value == "1":
+            d.turn_on()
+        elif current_value == "0":
+            d.turn_off()
+        else:
+            print(f"Unexpected value '{current_value}' in {file_path}. Expected '1' or '0'.")
+        previous_value = current_value  # update the last known value
+
+    time.sleep(1)  # wait for 1 second before checking again

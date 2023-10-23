@@ -1,0 +1,16 @@
+-----Emulation-----
+
+The .ino file in this folder was developed to be run on an Arduino Nano board, used to emulate the communication between the data logger and the SQM-160.
+The file is intended to be used with a direct connection between the Arduino's default UART pins and the UART pins of the XBee 3 device.
+The RX/TX pins are connected to the TX/RX respectively.
+
+-----Processing-----
+
+The readXBEEUSB.py file is designed to be run on a desktop computer with an XBee 3 module connected to a USB port via the XBee Explorer dongle.
+This file will automatically print the payload of any XBee message the connected device receives.
+
+Note: The XBee connected via the Explorer must be operated in API mode, and that messages received from non-XBee devices are not guaranteed to be displayed 
+  correctly using this method.
+
+The RS232DataMonitor.py file is the developed script to be run on an XBee 3 module operating in MicroPython mode with Auto-start enabled.
+When connected to power the python script will begin, with a 10 second timer before program start included to provide ample time for the network to be found.

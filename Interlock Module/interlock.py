@@ -7,14 +7,14 @@ def control_tuya_switch():
 
     d = pytuya.OutletDevice(DEVICE_ID, IP_ADDRESS, LOCAL_KEY)
     d.set_version(3.3)
-    data = d.status()  # 获取设备状态
+    data = d.status()  
     print("Full data returned from device:", data)
     
     if 'dps' in data and '1' in data['dps']:
         print('Device %s at %s is power state: %s' % 
               (DEVICE_ID, IP_ADDRESS, data['dps']['1']))
 
-        # 打开设备
+        
         d.turn_on()
 
     else:

@@ -55,7 +55,7 @@ def create_failure_screen():
     Label(failure_screen, text='Login Failed. Incorrect account or password.').pack()
 
 def read_student_accounts():
-    file_path = "/home/pi/credentialList/Account.txt"  # 请替换为实际文件路径
+    file_path = "/home/pi/credentialList/Account.txt"  
     with open(file_path, 'r') as file:
         lines = file.readlines()
     for i in range(0, len(lines), 2):
